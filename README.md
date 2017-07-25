@@ -7,3 +7,4 @@ Personal notes taken from the course [ThCS. Introduction to programming with dep
 - Path Dependent Types
 - Dependent Pair Type (Σ-Type)
 - Dependent Function Type (Π-Type)
+- Type Level Programming (vs. Value Level)
