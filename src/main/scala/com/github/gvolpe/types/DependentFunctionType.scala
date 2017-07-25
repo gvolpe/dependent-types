@@ -35,29 +35,28 @@ object DependentFunctionType {
     type This = Succ[N]
   }
 
-  type _0 = Zero
-  type _1 = _0# ++
-  type _2 = _1# ++
-  type _3 = _2# ++
+  type One    = Zero# ++
+  type Two    = One# ++
+  type Three  = Two# ++
 
-  val _0: _0 = Zero
-  val _1: _1 = new Succ[_0]
-  val _2: _2 = new Succ[_1]
-  val _3: _3 = new Succ[_2]
+  val _0: Zero  = Zero
+  val _1: One   = new Succ[Zero]
+  val _2: Two   = new Succ[One]
+  val _3: Three = new Succ[Two]
 
-  sealed trait DepType[N <: Nat] { 
+  sealed trait DepType[N <: Nat] {
     type T
     def apply(x: N): T
   }
 
-  implicit object depType0 extends DepType[_0] {
+  implicit object depType0 extends DepType[Zero] {
     type T = Int
-    override def apply(x: _0) = 10
+    override def apply(x: Zero) = 10
   }
 
-  implicit object depType1 extends DepType[_1] {
+  implicit object depType1 extends DepType[One] {
     type T = String
-    override def apply(x: _1) = "abc"
+    override def apply(x: One) = "abc"
   }
 
   implicit def depType[N <: Nat] = new DepType[Succ[Succ[N]]] {
