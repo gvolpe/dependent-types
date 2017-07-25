@@ -6,7 +6,7 @@ package com.github.gvolpe.types
   * Here's the representation in the Idris language:
   *
   * data DepProduct : (a -> Type) -> (P : a -> Type) -> Type where
-  *     MakeDepProduct : {a -> Type} -> {P : a -> Type} -> ((x : a) -> P x) -> DepProduct a P
+  *     MakeDepProduct : {P : a -> Type} -> ((x : a) -> P x) -> DepProduct a P
   *
   * depType : Int -> Type
   * depType 0 = Int
@@ -15,9 +15,9 @@ package com.github.gvolpe.types
   *
   * depFunction : DepProduct Int (\n => depType n)
   * depFunction = MakeDepProduct (\n => case n of
-  *                                 0 = 10
-  *                                 1 = "aaa"
-  *                                 2 = True)
+  *                                        0 => 10
+  *                                        1 => "aaa"
+  *                                        2 => True)
   * */
 object DependentFunctionType {
 
