@@ -59,4 +59,9 @@ object BoolValueLevel {
     override def ifElse[C](t: => C, f: => C) = f
   }
 
+  False.not == True
+  False.&&(True) == False
+  False.||(True) == True
+  False.ifElse(1, 2) == 2
+
 }
