@@ -2,7 +2,7 @@ package com.github.gvolpe.types
 
 import scala.language.higherKinds
 
-object TypeClasses extends App {
+object TypeClasses {
 
   implicit object listMonad extends Monad[List] {
     override def bind[A, B](ma: List[A], k: (A) => List[B]) = ma.flatMap(k)
