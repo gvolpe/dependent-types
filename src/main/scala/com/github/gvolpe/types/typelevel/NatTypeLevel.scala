@@ -2,7 +2,7 @@ package com.github.gvolpe.types.typelevel
 
 import scala.language.higherKinds
 
-object NatTypeLevel extends App {
+object NatTypeLevel {
 
   sealed trait Nat {
     type This >: this.type <: Nat
@@ -20,7 +20,7 @@ object NatTypeLevel extends App {
   class Succ[N <: Nat] extends Nat {
     type This = Succ[N]
     type + [X <: Nat] = Succ[N# + [X]]
-    type * [X <: Nat] = (N# + [X])# + [X]
+    type * [X <: Nat] = (N# * [X])# + [X]
   }
 
   type Zero   = Zero.type
@@ -29,9 +29,11 @@ object NatTypeLevel extends App {
   type Three  = Two# ++
   type Four   = Three# ++
   type Five   = Four# ++
+  type Six    = Five# ++
 
   implicitly[Two# + [Three] =:= Five]
   implicitly[One# + [Two] =:= Three]
+  implicitly[Two# * [Two] =:= Four]
   //  implicitly[Two# + [Three] =:= Four] // Does not compile
 
   sealed trait Factorial[N <: Nat] { type Res <: Nat }
@@ -39,9 +41,12 @@ object NatTypeLevel extends App {
   implicit object factorial0 extends Factorial[Zero] { type Res = One }
 
   implicit def factorial[N <: Nat, X <: Nat](implicit fact: Factorial[N] { type Res = X}) =
-    new Factorial[Succ[N]] { type Res = X# + [Succ[N]] }
+    new Factorial[Succ[N]] { type Res = X# * [Succ[N]] }
 
   implicitly[Factorial[Zero] { type Res = One }]
+  implicitly[Factorial[One] { type Res = One }]
+  implicitly[Factorial[Two] { type Res = Two }]
+  implicitly[Factorial[Three] { type Res = Six }]
   //  implicitly[Factorial[Three] { type Res = Five }] // Does not compile!
 
   sealed trait Fibonacci[N <: Nat] { type Res <: Nat }
